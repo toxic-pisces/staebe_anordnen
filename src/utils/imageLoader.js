@@ -81,53 +81,53 @@ export const imageLoader = new ImageLoader();
 // Asset-Pfade
 export const ASSETS = {
   images: {
-    diamond: '/assets/images/dia.png',
-    levelBarEmpty: '/assets/images/levelbar-empty.png',
-    levelBarFull: '/assets/images/levelbar-full.png',
-    shopTemplate: '/assets/images/shop-template.png',
+    diamond: './assets/images/dia.png',
+    levelBarEmpty: './assets/images/levelbar-empty.png',
+    levelBarFull: './assets/images/levelbar-full.png',
+    shopTemplate: './assets/images/shop-template.png',
 
     // Level-Bar Frames (1 = leer, 10 = voll)
     levelBarFrames: Array.from({ length: 10 }, (_, i) =>
-      `/assets/images/levelbar-${i + 1}.png`
+      `./assets/images/levelbar-${i + 1}.png`
     ),
 
     sticks: Object.fromEntries(
       [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map(i => [
         i,
-        `/assets/images/sticks/stab-${i}.png`
+        `./assets/images/sticks/stab-${i}.png`
       ])
     ),
 
     portal: Array.from({ length: 16 }, (_, i) =>
-      `/assets/images/portal/portal-${i + 1}.png`
+      `./assets/images/portal/portal-${i + 1}.png`
     ),
 
     sellers: {
-      kevin1: '/assets/images/sellers/kevin1.png',
-      kevin2: '/assets/images/sellers/kevin2.jpg',
-      muetzi1: '/assets/images/sellers/muetzi1.png',
-      muetzi2: '/assets/images/sellers/muetzi2.jpg',
-      beppo1: '/assets/images/sellers/beppo1.png',
-      beppo2: '/assets/images/sellers/beppo2.png',
-      berft1: '/assets/images/sellers/berft1.png',
-      berft2: '/assets/images/sellers/berft2.png',
-      doppelzopfine1: '/assets/images/sellers/doppelzopfine1.jpg',
-      doppelzopfine2: '/assets/images/sellers/doppelzopfine2.jpg',
-      schlorpf1: '/assets/images/sellers/schlorpf1.png',
-      schlorpf2: '/assets/images/sellers/schlorpf2.png',
-      handbert1: '/assets/images/sellers/handbert1.png',
-      handbert2: '/assets/images/sellers/handbert2.png'
+      kevin1: './assets/images/sellers/kevin1.png',
+      kevin2: './assets/images/sellers/kevin2.jpg',
+      muetzi1: './assets/images/sellers/muetzi1.png',
+      muetzi2: './assets/images/sellers/muetzi2.jpg',
+      beppo1: './assets/images/sellers/beppo1.png',
+      beppo2: './assets/images/sellers/beppo2.png',
+      berft1: './assets/images/sellers/berft1.png',
+      berft2: './assets/images/sellers/berft2.png',
+      doppelzopfine1: './assets/images/sellers/doppelzopfine1.jpg',
+      doppelzopfine2: './assets/images/sellers/doppelzopfine2.jpg',
+      schlorpf1: './assets/images/sellers/schlorpf1.png',
+      schlorpf2: './assets/images/sellers/schlorpf2.png',
+      handbert1: './assets/images/sellers/handbert1.png',
+      handbert2: './assets/images/sellers/handbert2.png'
     }
   },
 
   audio: {
-    background: '/assets/audio/hintergrund1.mp3',
-    portal: '/assets/audio/portal.mp3',
-    collectDiamond: '/assets/audio/collect-diamond.mp3',
-    levelUp: '/assets/audio/level-up.mp3',
-    purchase: '/assets/audio/purchase.mp3',
-    collectStab: '/assets/audio/collect-stab.wav',
-    dropStab: '/assets/audio/drop-stab.wav'
+    background: './assets/audio/hintergrund1.mp3',
+    portal: './assets/audio/portal.mp3',
+    collectDiamond: './assets/audio/collect-diamond.mp3',
+    levelUp: './assets/audio/level-up.mp3',
+    purchase: './assets/audio/purchase.mp3',
+    collectStab: './assets/audio/collect-stab.wav',
+    dropStab: './assets/audio/drop-stab.wav'
   }
 };
 
