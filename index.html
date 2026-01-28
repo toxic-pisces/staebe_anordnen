@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stäbe anordnen</title>
+  <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="game-canvas"></canvas>
+
+    <!-- UI Overlays -->
+    <div id="ui-overlay">
+      <div id="hud">
+        <div id="hud-left">
+          <div id="diamond-display">
+            <img id="diamond-icon" src="" alt="Diamant">
+            <span id="diamond-count">0</span>
+          </div>
+        </div>
+        <div id="hud-center">
+          <div id="level-display">
+            <span id="level-number">Lvl 1</span>
+            <div id="level-bar-container">
+              <img id="level-bar" src="" alt="Level Bar">
+              <div id="xp-tooltip" class="hidden">
+                <span id="xp-current">0</span> / <span id="xp-needed">100</span> XP
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="hud-right">
+          <button id="shop-btn" class="icon-btn" title="Shop">
+            <img src="/assets/images/shop.png" alt="Shop">
+          </button>
+          <button id="leaderboard-btn" class="icon-btn" title="Leaderboard">
+            <img src="/assets/images/leaderbord.png" alt="Leaderboard">
+          </button>
+          <button id="settings-btn" class="icon-btn" title="Einstellungen">
+            <img src="/assets/images/einstellungen.png" alt="Einstellungen">
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shop Overlay -->
+    <div id="shop-overlay" class="overlay hidden">
+      <div id="shop-container">
+        <h2>Shop</h2>
+        <div id="shop-items"></div>
+        <button id="shop-close-btn">Schließen</button>
+      </div>
+    </div>
+
+    <!-- Leaderboard Overlay -->
+    <div id="leaderboard-overlay" class="overlay hidden">
+      <div id="leaderboard-container">
+        <h2>Leaderboard</h2>
+        
+        <!-- Auth Section (wenn nicht eingeloggt) -->
+        <div id="auth-section">
+          <div id="auth-tabs">
+            <button id="login-tab" class="auth-tab active">Anmelden</button>
+            <button id="register-tab" class="auth-tab">Registrieren</button>
+          </div>
+          
+          <div id="login-form" class="auth-form">
+            <input type="text" id="login-username" placeholder="Benutzername" maxlength="20">
+            <input type="password" id="login-password" placeholder="Passwort" minlength="6">
+            <button id="login-submit-btn">Anmelden</button>
+            <p id="login-error" class="auth-error hidden"></p>
+          </div>
+          
+          <div id="register-form" class="auth-form hidden">
+            <input type="text" id="register-username" placeholder="Benutzername" maxlength="20">
+            <input type="password" id="register-password" placeholder="Passwort (min. 6 Zeichen)" minlength="6">
+            <button id="register-submit-btn">Registrieren</button>
+            <p id="register-error" class="auth-error hidden"></p>
+          </div>
+        </div>
+
+        <!-- Logged In Section -->
+        <div id="logged-in-section" class="hidden">
+          <div id="current-user-info">
+            <span>Eingeloggt als: <strong id="current-username"></strong></span>
+            <button id="logout-btn">Abmelden</button>
+          </div>
+          <button id="sync-btn">Daten synchronisieren</button>
+        </div>
+
+        <!-- Leaderboard Liste -->
+        <div id="leaderboard-list"></div>
+        
+        <button id="leaderboard-close-btn">Schließen</button>
+      </div>
+    </div>
+
+    <!-- Settings Overlay -->
+    <div id="settings-overlay" class="overlay hidden">
+      <div id="settings-container">
+        <h2>Einstellungen</h2>
+        
+        <!-- Account Section -->
+        <div id="settings-account-section">
+          <h3>Account</h3>
+          
+          <!-- Nicht eingeloggt -->
+          <div id="settings-auth" class="settings-auth-box">
+            <div id="settings-auth-tabs">
+              <button id="settings-login-tab" class="auth-tab active">Anmelden</button>
+              <button id="settings-register-tab" class="auth-tab">Registrieren</button>
+            </div>
+            
+            <div id="settings-login-form" class="auth-form">
+              <input type="text" id="settings-login-username" placeholder="Benutzername" maxlength="20">
+              <input type="password" id="settings-login-password" placeholder="Passwort" minlength="6">
+              <button id="settings-login-btn">Anmelden</button>
+              <p id="settings-login-error" class="auth-error hidden"></p>
+            </div>
+            
+            <div id="settings-register-form" class="auth-form hidden">
+              <input type="text" id="settings-register-username" placeholder="Benutzername" maxlength="20">
+              <input type="password" id="settings-register-password" placeholder="Passwort (min. 6 Zeichen)" minlength="6">
+              <button id="settings-register-btn">Registrieren</button>
+              <p id="settings-register-error" class="auth-error hidden"></p>
+            </div>
+          </div>
+          
+          <!-- Eingeloggt -->
+          <div id="settings-logged-in" class="settings-auth-box hidden">
+            <div id="settings-user-info">
+              <span>👤 <strong id="settings-username"></strong></span>
+              <span class="settings-sync-status" id="settings-sync-status">✓ Synchronisiert</span>
+            </div>
+            <div class="settings-account-buttons">
+              <button id="settings-sync-btn">Jetzt synchronisieren</button>
+              <button id="settings-logout-btn">Abmelden</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-divider"></div>
+        
+        <div class="setting-row">
+          <label for="music-volume">Musik</label>
+          <input type="range" id="music-volume" min="0" max="100" value="50">
+        </div>
+        <div class="setting-row">
+          <label for="sfx-volume">Effekte</label>
+          <input type="range" id="sfx-volume" min="0" max="100" value="50">
+        </div>
+        
+        <div class="settings-divider"></div>
+        
+        <!-- Spielinfo Sektion -->
+        <div id="settings-info-section">
+          <h3>Spielinfo</h3>
+          <div class="settings-info-grid">
+            <div class="settings-info-row">
+              <span class="info-label">Belohnung pro Sortierung:</span>
+              <span class="info-value" id="info-reward-xp">+70 XP</span>
+              <span class="info-value" id="info-reward-diamonds">+2</span>
+              <img src="/assets/images/dia.png" alt="Diamant" class="info-diamond-icon">
+            </div>
+            <div class="settings-info-row" id="info-prestige-row">
+              <span class="info-label">Prestige-Level:</span>
+              <span class="info-value" id="info-prestige-level">0</span>
+            </div>
+            <div class="settings-info-row" id="info-multiplier-row">
+              <span class="info-label">EP-Multiplikator:</span>
+              <span class="info-value" id="info-xp-mult">×1.0 EP</span>
+            </div>
+            <div class="settings-info-row">
+              <span class="info-label">Sortierungen gesamt:</span>
+              <span class="info-value" id="info-total-sorts">0</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="settings-divider"></div>
+        
+        <div class="settings-buttons">
+          <button id="settings-save-btn">Speichern</button>
+          <button id="credits-btn">Credits</button>
+          <button id="settings-close-btn">Schließen</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Credits Overlay -->
+    <div id="credits-overlay" class="overlay hidden">
+      <div id="credits-container">
+        <h2>Credits</h2>
+        <div id="credits-content">
+          <div class="credits-category">
+            <h3>Kunst</h3>
+            <p>@robinvehrs und ich</p>
+          </div>
+          <div class="credits-category">
+            <h3>Sounds</h3>
+            <ul>
+              <li><strong>Stab sammeln:</strong> <a href="https://freesound.org/s/425726/" target="_blank">Click03.wav by moogy73</a> (CC0)</li>
+              <li><strong>Stab anordnen:</strong> <a href="https://freesound.org/s/425728/" target="_blank">Click01.wav by moogy73</a> (CC0)</li>
+              <li><strong>Kaufen:</strong> <a href="https://pixabay.com/de/sound-effects/clinking-coins-2-468431/" target="_blank">Clinking Coins</a> (Pixabay)</li>
+              <li><strong>Level Up:</strong> <a href="https://freesound.org/s/337049/" target="_blank">level-up-01 by shinephoenixstormcrow</a> (CC BY 3.0)</li>
+              <li><strong>Portal:</strong> <a href="https://pixabay.com/de/sound-effects/film-spezialeffekte-portal-idle-34022/" target="_blank">Portal Idle</a> (Pixabay)</li>
+              <li><strong>Diamant:</strong> <a href="https://pixabay.com/de/sound-effects/film-spezialeffekte-soft-treble-fast-collect-fade-out-ending-sound-effect-416828/" target="_blank">Collect Sound</a> (Pixabay)</li>
+            </ul>
+          </div>
+          <div class="credits-category">
+            <h3>Musik</h3>
+            <p><a href="https://pixabay.com/music/video-games-game-gaming-minecraft-background-music-370830/" target="_blank">Gaming Background Music</a> (Pixabay)</p>
+          </div>
+        </div>
+        <button id="credits-close-btn">Zurück</button>
+      </div>
+    </div>
+
+    <!-- Portal Confirmation Dialog -->
+    <div id="portal-confirm-overlay" class="overlay hidden">
+      <div id="portal-confirm-container">
+        <h2>Portal öffnen?</h2>
+        <div class="portal-confirm-content">
+          <p class="portal-warning">Achtung!</p>
+          <p>Wenn du das Portal betrittst, werden alle deine <strong>Diamanten</strong> und <strong>gekauften Stäbe</strong> zurückgesetzt!</p>
+          <p class="portal-bonus">Dafür erhältst du permanent <strong>+25% mehr EP</strong> pro Sortierung!</p>
+        </div>
+        <div class="portal-confirm-buttons">
+          <button id="portal-confirm-yes-btn">Ja, Portal öffnen!</button>
+          <button id="portal-confirm-no-btn">Abbrechen</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Portal Overlay - Fullscreen Animation -->
+    <div id="portal-overlay" class="overlay hidden">
+      <canvas id="portal-canvas"></canvas>
+    </div>
+
+    <!-- Portal Button (erscheint wenn verfügbar) -->
+    <div id="portal-button-container" class="hidden">
+      <button id="portal-btn">Portal öffnen</button>
+    </div>
+
+    <!-- Success Message -->
+    <div id="success-message" class="hidden">
+      <span id="success-text">ANGEORDNET!</span>
+      <span id="reward-text">+10 XP | +5 💎</span>
+    </div>
+
+    <!-- Prestige Welcome Message -->
+    <div id="prestige-welcome" class="hidden">
+      <h2>Glückwunsch!</h2>
+      <p>Hier sind deine neuen Stäbe!</p>
+      <p class="prestige-hint">Sie sehen gleich aus, sind aber wertvoller!</p>
+      <div class="prestige-buttons">
+        <button class="prestige-welcome-btn">Cool!</button>
+        <button class="prestige-welcome-btn">Mega cool!</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
